@@ -1,4 +1,5 @@
 package com.example.adminjta.myapplication;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -19,7 +21,10 @@ import java.text.NumberFormat;
  */
 public class MainActivity extends ActionBarActivity {
     int quantity = 0;
-    int price = 0;
+    int price_coffe = 5;
+    int price_total = 0;
+    int price_chocolate = 5;
+    int price_chantily = 2;
     String ptChocolate = "";
     String ptChantily = "";
     String urName = "";
@@ -53,25 +58,53 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    public void sendEmail(View view){
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+
+        intent.setData(Uri.parse("mailto: arrthurxd@hotmail.com")); // only email apps should handle this
+        intent.putExtra(Intent.EXTRA_TEXT, createOrderSummary());
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+
+    }
+
     public void SetCheckBoxs(View view){
         CheckBox chantily = (CheckBox) findViewById(R.id.chantily);
         CheckBox chocolate = (CheckBox) findViewById(R.id.chocolate);
         boolean hasChantily = chantily.isChecked();
         boolean hasChocolate = chocolate.isChecked();
-        if (hasChantily){
-            ptChantily = "Com chantily";
-            price += 2;
-        }
-        else{
-            ptChantily = "Sem chantily";
-        }
+
+
         if (hasChocolate){
             ptChocolate = "Com Chocolate";
-            price += 5;
+            if (quantity>0){
+                price_total += quantity*price_chocolate;
+            }
+
         }
         else {
             ptChocolate = "Sem chocolate";
         }
+
+        if (hasChantily){
+            ptChantily = "Com chantily";
+            if (quantity>0){
+                price_total += quantity*price_chantily;
+            }
+        }
+        else{
+            ptChantily = "Sem chantily";
+        }
+
+    }
+    /**
+     * Calculates the price of the order.
+     *
+     */
+    private int calculatePrice() {
+        price_total = quantity * price_coffe;
+        return price_total;
 
     }
 
@@ -80,18 +113,12 @@ public class MainActivity extends ActionBarActivity {
         summaryMessage+="\nCom chantily? " + ptChantily;
         summaryMessage+="\nCom chocolate? " + ptChocolate;
         summaryMessage+="\nQuantidade: " + quantity;
-        summaryMessage+="\nTotal: " + price;
+        summaryMessage+="\nTotal: " + price_total;
         summaryMessage+="\nThank you!";
 
         return summaryMessage;
     }
-    /**
-     * Calculates the price of the order.
-     *
-     */
-    private void calculatePrice() {
-        price = quantity * 5;
-    }
+
 
     /**
      * This method displays the given text on the screen.
@@ -117,16 +144,27 @@ public class MainActivity extends ActionBarActivity {
 
     public void increment(View view) {
         ;
-        quantity = quantity + 1;
-        displayQuantatiy(quantity);
+        if (quantity<100) {
+            quantity = quantity + 1;
+            displayQuantatiy(quantity);
 
+        }
+        else{
+            Toast.makeText(this, "Você não pode pedir mais de 100 cafés", Toast.LENGTH_SHORT).show();
+
+        }
     }
 
     public void decrement(View view) {
-        ;
-        quantity = quantity - 1;
-        displayQuantatiy(quantity);
+        if (quantity>0) {
+            quantity = quantity - 1;
+            displayQuantatiy(quantity);
 
+        }
+        else{
+            Toast.makeText(this, "Você não pode pedir menos de 0 cafés", Toast.LENGTH_SHORT).show();
+
+        }
     }
 
     @Override
