@@ -2,8 +2,10 @@ package com.example.adminjta.myapplication;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
@@ -17,6 +19,13 @@ import java.text.NumberFormat;
  */
 public class MainActivity extends ActionBarActivity {
     int quantity = 0;
+    int price = 0;
+    String ptChocolate = "";
+    String ptChantily = "";
+    String urName = "";
+
+
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -36,25 +45,52 @@ public class MainActivity extends ActionBarActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-        CheckBox hasChantily = (CheckBox) findViewById(R.id.chantily);
-
-        displayMessage(createOrderSummary(calculatePrice(), hasChantily));
+        EditText name = (EditText) findViewById(R.id.urname);
+        urName = name.getText().toString();
+        calculatePrice();
+        SetCheckBoxs(view);
+        displayMessage(createOrderSummary());
 
     }
 
-    public String createOrderSummary(int price, CheckBox chantily){
-        return "Name: José Arthur"+
-                "\nQuantity:"+quantity+
-                "\nAdd chantily?"+chantily+
-                "\nTotal:"+price+
-                "\nThank You!";
+    public void SetCheckBoxs(View view){
+        CheckBox chantily = (CheckBox) findViewById(R.id.chantily);
+        CheckBox chocolate = (CheckBox) findViewById(R.id.chocolate);
+        boolean hasChantily = chantily.isChecked();
+        boolean hasChocolate = chocolate.isChecked();
+        if (hasChantily){
+            ptChantily = "Com chantily";
+            price += 2;
+        }
+        else{
+            ptChantily = "Sem chantily";
+        }
+        if (hasChocolate){
+            ptChocolate = "Com Chocolate";
+            price += 5;
+        }
+        else {
+            ptChocolate = "Sem chocolate";
+        }
+
+    }
+
+    public String createOrderSummary(){
+        String summaryMessage = "Nome: " + urName;
+        summaryMessage+="\nCom chantily? " + ptChantily;
+        summaryMessage+="\nCom chocolate? " + ptChocolate;
+        summaryMessage+="\nQuantidade: " + quantity;
+        summaryMessage+="\nTotal: " + price;
+        summaryMessage+="\nThank you!";
+
+        return summaryMessage;
     }
     /**
      * Calculates the price of the order.
      *
      */
-    private int calculatePrice() {
-        return quantity * 5;
+    private void calculatePrice() {
+        price = quantity * 5;
     }
 
     /**
