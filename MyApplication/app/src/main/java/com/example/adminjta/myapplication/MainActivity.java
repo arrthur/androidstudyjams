@@ -109,12 +109,12 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public String createOrderSummary(){
-        String summaryMessage = "Nome: " + urName;
-        summaryMessage+="\nCom chantily? " + ptChantily;
-        summaryMessage+="\nCom chocolate? " + ptChocolate;
-        summaryMessage+="\nQuantidade: " + quantity;
-        summaryMessage+="\nTotal: " + price_total;
-        summaryMessage+="\nThank you!";
+        String summaryMessage = getString(R.string.order_summary_name, urName);
+        summaryMessage+="\n"+getString(R.string.order_summary_chantily, ptChantily);
+        summaryMessage+="\n" + getString(R.string.order_summary_chocolate, ptChocolate);
+        summaryMessage+="\n"+ getString(R.string.order_summary_quantity, quantity);
+        summaryMessage+="\n"+ getString(R.string.order_summary_price, price_total) + "R$";
+        summaryMessage+="\n"+getString(R.string.thank_you);
 
         return summaryMessage;
     }
