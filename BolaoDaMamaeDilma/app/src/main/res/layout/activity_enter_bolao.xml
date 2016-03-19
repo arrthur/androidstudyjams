@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.arthur.bolaodamamaedilma.EnterBolao"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    >
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dilmabolada2"
+            android:layout_marginTop="330dp"
+
+
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/linearLayout">
+
+            <EditText
+                android:id="@+id/nome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Informe seu nome"
+                android:layout_marginTop="40dp"
+                android:inputType="textCapSentences"
+                android:singleLine="true"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Data da queda do governo"
+                android:onClick="showDatePickerDialog"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="70dp"/>
+
+            <CheckBox
+                android:id="@+id/lula_preso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lula é preso?"
+                android:padding="30dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="70dp"/>
+
+
+        </LinearLayout>
+
+        <Button
+            android:text="Apostar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="150dp"
+            android:layout_marginRight="50dp"
+            android:onClick="saveBolao"
+            />
+
+    </RelativeLayout>
+</ScrollView>
