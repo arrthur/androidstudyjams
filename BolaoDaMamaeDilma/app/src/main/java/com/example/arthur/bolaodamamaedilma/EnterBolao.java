@@ -6,11 +6,13 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -34,7 +36,6 @@ public class EnterBolao extends FragmentActivity implements DatePickerDialog.OnD
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
         dataEscolhida = Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
-        Log.w("RONALDO", dataEscolhida);
     }
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
@@ -68,13 +69,21 @@ public class EnterBolao extends FragmentActivity implements DatePickerDialog.OnD
         EditText editText = (EditText) findViewById(R.id.nome);
         CheckBox lula_checkbox = (CheckBox) findViewById(R.id.lula_preso);
         lulaPreso = lula_checkbox.isChecked();
-        String message = editText.getText().toString();
-        intent.putExtra(NOMEINTENT, message);
+        nome = editText.getText().toString();
+        intent.putExtra(NOMEINTENT, nome);
         intent.putExtra(CHECKLULAINTENT, lulaPreso);
         intent.putExtra(DATAINTENT, dataEscolhida);
-
-        startActivity(intent);
-
+        if (dataEscolhida==null) {
+            Toast.makeText(this, "Informe a data", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            if(TextUtils.isEmpty(nome)){
+                Toast.makeText(this, "Informe o seu nome", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                startActivity(intent);
+            }
+        }
 
 
     }
